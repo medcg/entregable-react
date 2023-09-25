@@ -1,48 +1,54 @@
-import React from 'react'
+import { Octokit } from "octokit";
 
-const Home = () => {
-  return (
-    <div>Home</div>
-  )
-}
+const octokit = new Octokit({ });
 
-function MyComponent() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+async function getPaginatedData(url) {
+  const nextPattern = /(?<=<)([\S]*)(?=>; rel="Next")/i;
+  let pagesRemaining = true;
+  let data = [];
 
+  while (pagesRemaining) {
+    const response = await octokit.request(`GET ${url}`, {
+      per_page: 100,
+      headers: {
+        "X-GitHub-Api-Version":
+          "2022-11-28",
+      },
+    });
 
-  useEffect(() => {
-    fetch("https://api.example.com/items")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setItems(result);
-        },
-        
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-  }, [])
+    const parsedData = parseData(response.data)
+    data = [...data, ...parsedData];
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
-    return (
-      <ul>
-        {items.map(item => (
-          <li key={item.id}>
-            {item.name} {item.price}
-          </li>
-        ))}
-      </ul>
-    );
+    const linkHeader = response.headers.link;
+
+    pagesRemaining = linkHeader && linkHeader.includes(`rel=\"next\"`);
+
+    if (pagesRemaining) {
+      url = linkHeader.match(nextPattern)[0];
+    }
   }
+
+  return data;
 }
 
-export default Home
+function parseData(data) {
+    if (Array.isArray(data)) {
+      return data
+    }
+
+  if (!data) {
+    return []
+  }
+
+  delete data.incomplete_results;
+  delete data.repository_selection;
+  delete data.total_count;
+  const namespaceKey = Object.keys(data)[0];
+  data = data[namespaceKey];
+
+  return data;
+}
+
+const data = await getPaginatedData("/repos/octocat/Spoon-Knife/issues");
+
+console.log(data);
