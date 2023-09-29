@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 function PaginaPrincipal() {
   return (
     <div>
-      <h1>Bienvenido a la Página Principal</h1>
-      <p>Esta es la página principal de tu aplicación.</p>
+      <h1>Buscador de GitHub</h1>
+      <p>En este buscador puedes localizar tanto los usuarios como los repositorios de la manera más rápida y eficaz.</p>
       <p>
         Puedes navegar a{' '}
         <Link to="/usuarios">Usuarios</Link> o{' '}

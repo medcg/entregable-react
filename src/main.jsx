@@ -1,27 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import App from './App';
-import Repositorios from './components/pages/Repositorios';
-import Usuarios from './components/pages/Usuarios';
-import Navigation from './components/navigation/navbar';
-import PaginaPrincipal from './components/pages/PaginaPrincipal';
+import React from 'react'
 
-ReactDOM.render(
+import ReactDOM from 'react-dom/client'
+
+import App from './App.jsx'
+
+
+ 
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+
   <React.StrictMode>
-    <Router>
-      <Switch>
-        <Route path="/repos">
-          <Repositorios />
-        </Route>
-        <Route path="/users">
-          <Usuarios />
-        </Route>
-        <Route path="/">
-          <App />
-        </Route>
-      </Switch>
-    </Router>
+
+    <App />
+
   </React.StrictMode>,
-  document.getElementById('root')
-);
+
+)
+
+ 
