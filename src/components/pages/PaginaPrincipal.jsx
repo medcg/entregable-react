@@ -8,8 +8,8 @@ function PaginaPrincipal() {
       <p>En este buscador puedes localizar tanto los usuarios como los repositorios de la manera más rápida y eficaz.</p>
       <p>
         Puedes navegar a{' '}
-        <Link to="/usuarios">Usuarios</Link> o{' '}
-        <Link to="/repositorios">Repositorios</Link> utilizando los enlaces de navegación.
+        <Link to="/Usuarios">Usuarios</Link> o{' '}
+        <Link to="/Repositorios">Repositorios</Link>
       </p>
     </div>
   );

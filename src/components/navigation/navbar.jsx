@@ -1,19 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Navigation() {
+function Navbar() {
   return (
     <nav>
       <ul>
         <li>
-          <Link to="/repos">Repositorios</Link>
+          <Link to="/">PaginaPrincipal</Link>
         </li>
         <li>
-          <Link to="/users">Usuarios</Link>
+          <Link to="/usuarios">Usuarios</Link>
+        </li>
+        <li>
+          <Link to="/repositorios">Repositorios</Link>
         </li>
       </ul>
     </nav>
   );
 }
 
-export default Navigation;
+export default Navbar;
