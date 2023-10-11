@@ -45,7 +45,7 @@ const App = () => {
             ))}
           </ul>
         ) : (
-          <p>No se encontraron repositorios.</p>
+          <p></p>
         )}
       </article>
     </div>
