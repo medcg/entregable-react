@@ -21,17 +21,17 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>GitHub Repository Search</h1>
-      <div>
-        <input
+    <div className="text-center">
+      <h1 className="mt-4 mb-8 text-3xl text-blue-900">Busca los Repositorios</h1>
+      <div className= "flex items-center justify-center">
+        <input className="py-2 px-4 border border-stone-950 rounded-lg max-w-2000"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Ingresa Nombre de Repositorio"
+          placeholder="Nombre de Repositorio"
         />
       </div>
-      <div>
-        <button onClick={fetchRepos}>Buscar</button>{" "}
+      <div className="flex items-center justify-center mt-2">
+        <button className="rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2" onClick={fetchRepos}>Buscar</button>{" "}
       </div>
       <article>
         {repos.length > 0 ? (
