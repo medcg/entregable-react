@@ -31,7 +31,7 @@ const App = () => {
         />
       </div>
       <div className="flex items-center justify-center mt-2">
-        <button className="rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2" onClick={fetchRepos}>Buscar</button>{" "}
+        <button className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2" onClick={fetchRepos}>Buscar</button>{" "}
       </div>
       <article>
         {repos.length > 0 ? (
