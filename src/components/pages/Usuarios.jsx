@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from "../../api/config";
 
 const App = () => {
   const [search, setSearch] = useState(""); 
@@ -8,7 +9,7 @@ const App = () => {
   const fetchUser = async () => {
     try {
       const response = await fetch(
-        `https://api.github.com/users/${search}` 
+        'https://api.github.com/users/${search}' 
       );
       if (response.ok) {
         const data = await response.json();
