@@ -23,7 +23,7 @@ const App = () => {
     }
   };
 
-  const createUser = async () => {
+  const CreateUser = async () => {
     try {
       const response = await fetch(`${API_URL}/api/search`, {
         method: "POST",

@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { API_URL } from "../../api/config";
 
 const App = () => {
   const [search, setSearch] = useState("");
-  const [repos, setRepos] = useState([]);
+  
+  const [repos, setRepos] = useState(null);
 
   const [searchHistory, setSearchHistory] = useState([]);
 
@@ -20,6 +22,66 @@ const App = () => {
       console.error("error", error.message);
     }
   };
+
+  const CreateRepo = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/repo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(),
+      });
+
+      if (response.ok) {
+                console.log("Repositorio creado con éxito");
+      } else {
+                console.error("Error al crear repositorio");
+      }
+    } catch (error) {
+      console.error("error", error.message);
+    }
+  };
+
+  const ReadRepo = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/repo`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(),
+      });
+
+      if (response.ok) {
+                console.log("Repositorio leído con éxito");
+      } else {
+                console.error("Error al leer el repositorio");
+      }
+    } catch (error) {
+      console.error("error", error.message);
+    }
+  };
+    
+
+  const DeleteRepo = async () => {try {
+    const response = await fetch(`${API_URL}/api/repo/:id`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(),
+    });
+
+    if (response.ok) {
+              console.log("Repositorio eliminado con éxito");
+    } else {
+              console.error("Error al eliminar el repositorio");
+    }
+  } catch (error) {
+    console.error("error", error.message);
+  }
+};
 
   return (
     <div className="text-center">
@@ -41,6 +103,11 @@ const App = () => {
         >
           Buscar
         </button>{" "}
+      </div>
+      <div>
+        <button onClick={CreateUser}>Crear Repositorio</button>
+        <button onClick={ReadUser}>Leer Repositorio</button>
+        <button onClick={DeleteUser}>Eliminar Repositorio</button>
       </div>
       <article>
         {repos.length > 0 ? (

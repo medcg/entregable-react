@@ -1,9 +1,10 @@
-import React from "react";
+import React , {useState, useEffect} from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Repositorios from "./components/pages/Repositorios";
 import Usuarios from "./components/pages/Usuarios";
 import PaginaPrincipal from "./components/pages/PaginaPrincipal";
 import Navbar from "./components/navigation/navbar";
+
 
 const App = () => {
   const [searchHistory, setSearchHistory] = useState([]);
