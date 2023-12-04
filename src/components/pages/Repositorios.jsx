@@ -4,7 +4,7 @@ import { API_URL } from "../../api/config";
 const App = () => {
   const [search, setSearch] = useState("");
   
-  const [repos, setRepos] = useState(null);
+  const [repos, setRepos] = useState([]);
 
   const [searchHistory, setSearchHistory] = useState([]);
 
@@ -105,9 +105,9 @@ const App = () => {
         </button>{" "}
       </div>
       <div>
-        <button onClick={CreateUser}>Crear Repositorio</button>
-        <button onClick={ReadUser}>Leer Repositorio</button>
-        <button onClick={DeleteUser}>Eliminar Repositorio</button>
+        <button onClick={CreateRepo}>Crear Repositorio</button>
+        <button onClick={ReadRepo}>Leer Repositorio</button>
+        <button onClick={DeleteRepo}>Eliminar Repositorio</button>
       </div>
       <article>
         {repos.length > 0 ? (
