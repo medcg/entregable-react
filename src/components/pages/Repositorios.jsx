@@ -10,7 +10,7 @@ const App = () => {
 
   const fetchRepos = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/repo?query=${search}`);
+      const response = await fetch(`${API_URL}/repo?query=${search}`);
       if (response.ok) {
         const data = await response.json();
         setRepos(data.items);
@@ -25,7 +25,7 @@ const App = () => {
 
   const CreateRepo = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/repo`, {
+      const response = await fetch(`${API_URL}/repo`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,7 +45,7 @@ const App = () => {
 
   const ReadRepo = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/repo`, {
+      const response = await fetch(`${API_URL}/repo`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const App = () => {
     
 
   const DeleteRepo = async () => {try {
-    const response = await fetch(`${API_URL}/api/repo/:id`, {
+    const response = await fetch(`${API_URL}/repo/:id`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

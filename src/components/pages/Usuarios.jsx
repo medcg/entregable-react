@@ -4,19 +4,19 @@ import { API_URL } from "../../api/config";
 const App = () => {
   const [search, setSearch] = useState("");
 
-  const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]);
 
   const [searchHistory, setSearchHistory] = useState([]);
 
   const fetchUser = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/search?query=${search}`);
+      const response = await fetch(`${API_URL}/search?query=${search}`);
       if (response.ok) {
         const data = await response.json();
-        setUser(data);
+        setUsers(data.results);
         setSearchHistory((prevHistory) => [...prevHistory, search]);
       } else {
-        setUser(null);
+        setUsers([]);
       }
     } catch (error) {
       console.error("error", error.message);
@@ -25,18 +25,19 @@ const App = () => {
 
   const CreateUser = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/search`, {
+      const response = await fetch(`${API_URL}/search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(),
+        body: JSON.stringify({search}),
       });
 
       if (response.ok) {
-                console.log("Usuario creado con éxito");
+        const res = await response.json();
+        setUsers(res.data.results);
       } else {
-                console.error("Error al crear usuario");
+        console.error("Error al crear usuario");
       }
     } catch (error) {
       console.error("error", error.message);
@@ -45,7 +46,7 @@ const App = () => {
 
   const ReadUser = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/search`, {
+      const response = await fetch(`${API_URL}/search`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -54,35 +55,34 @@ const App = () => {
       });
 
       if (response.ok) {
-                console.log("Usuario leído con éxito");
+        console.log("Usuario leído con éxito");
       } else {
-                console.error("Error al leer el usuario");
+        console.error("Error al leer el usuario");
       }
     } catch (error) {
       console.error("error", error.message);
     }
   };
-    
 
-  const DeleteUser = async () => {try {
-    const response = await fetch(`${API_URL}/api/search/:id`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(),
-    });
+  const DeleteUser = async () => {
+    try {
+      const response = await fetch(`${API_URL}/search/:id`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(),
+      });
 
-    if (response.ok) {
-              console.log("Usuario eliminado con éxito");
-    } else {
-              console.error("Error al eliminar el usuario");
+      if (response.ok) {
+        console.log("Usuario eliminado con éxito");
+      } else {
+        console.error("Error al eliminar el usuario");
+      }
+    } catch (error) {
+      console.error("error", error.message);
     }
-  } catch (error) {
-    console.error("error", error.message);
-  }
-};
-
+  };
 
   return (
     <div className="text-center">
@@ -98,18 +98,17 @@ const App = () => {
       <div className="flex items-center justify-center mt-2">
         <button
           className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2"
-          onClick={fetchUser}
+          onClick={CreateUser}
         >
           Buscar
         </button>{" "}
       </div>
       <div>
-        <button onClick={CreateUser}>Crear Usuario</button>
         <button onClick={ReadUser}>Leer Usuario</button>
         <button onClick={DeleteUser}>Eliminar Usuario</button>
       </div>
       <article>
-        {user && (
+        {users.map((user) => (
           <div>
             <div className="container">
               <img src={user.avatar_url} alt="avatar" />
@@ -117,7 +116,7 @@ const App = () => {
               <p>{user.bio}</p>
             </div>
           </div>
-        )}
+        ))}
       </article>
       <div>
         <h2>Historial de búsquedas:</h2>
