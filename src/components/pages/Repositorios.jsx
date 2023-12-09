@@ -30,11 +30,12 @@ const App = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(),
+        body: JSON.stringify({search}),
       });
 
       if (response.ok) {
-                console.log("Repositorio creado con éxito");
+        const res = await response.json();
+        setRepos(res.data.results)
       } else {
                 console.error("Error al crear repositorio");
       }
@@ -99,13 +100,12 @@ const App = () => {
       <div className="flex items-center justify-center mt-2">
         <button
           className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2"
-          onClick={fetchRepos}
+          onClick={CreateRepo}
         >
           Buscar
         </button>{" "}
       </div>
       <div>
-        <button onClick={CreateRepo}>Crear Repositorio</button>
         <button onClick={ReadRepo}>Leer Repositorio</button>
         <button onClick={DeleteRepo}>Eliminar Repositorio</button>
       </div>
