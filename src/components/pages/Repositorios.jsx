@@ -65,8 +65,8 @@ const App = () => {
   };
     
 
-  const DeleteRepo = async () => {try {
-    const response = await fetch(`${API_URL}/repo/:id`, {
+  const DeleteRepo = async (id) => {try {
+    const response = await fetch(`${API_URL}/repo/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
