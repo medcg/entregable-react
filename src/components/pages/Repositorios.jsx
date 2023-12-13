@@ -14,7 +14,7 @@ const App = () => {
       if (response.ok) {
         const data = await response.json();
         setRepos(data.items);
-        setSearchHistory((prevHistory) => [...prevHistory, search]);
+        setSearchHistory(data);
       } else {
         setRepos([]);
       }
@@ -84,6 +84,11 @@ const App = () => {
   }
 };
 
+const HandleSearch = async () => { 
+  CreateRepo();
+  fetchRepos();
+} 
+
   return (
     <div className="text-center">
       <h1 className="mt-4 mb-8 text-3xl text-blue-900">
@@ -100,14 +105,10 @@ const App = () => {
       <div className="flex items-center justify-center mt-2">
         <button
           className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2"
-          onClick={CreateRepo}
+          onClick={HandleSearch}
         >
           Buscar
         </button>{" "}
-      </div>
-      <div>
-        <button onClick={ReadRepo}>Leer Repositorio</button>
-        <button onClick={DeleteRepo}>Eliminar Repositorio</button>
       </div>
       <article>
         {repos.length > 0 ? (
@@ -132,7 +133,11 @@ const App = () => {
         <h2>Historial de búsquedas:</h2>
         <ul>
           {searchHistory.map((item, index) => (
-            <li key={index}>{item}</li>
+            <li key={index}>{item.query}
+            <div>
+        <button onClick={ReadRepo}>Leer Repositorio</button>
+        <button onClick={DeleteRepo}>Eliminar Repositorio</button>
+      </div></li>
           ))}
         </ul>
       </div>

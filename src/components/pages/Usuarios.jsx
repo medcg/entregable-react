@@ -13,10 +13,10 @@ const App = () => {
       const response = await fetch(`${API_URL}/search?query=${search}`);
       if (response.ok) {
         const data = await response.json();
-        setUsers(data.results);
-        setSearchHistory((prevHistory) => [...prevHistory, search]);
+        setSearchHistory(data);
+        console.log(data);
       } else {
-        setUsers([]);
+        setSearchHistory([]);
       }
     } catch (error) {
       console.error("error", error.message);
@@ -64,9 +64,9 @@ const App = () => {
     }
   };
 
-  const DeleteUser = async () => {
+  const DeleteUser = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/search/:id`, {
+      const response = await fetch(`${API_URL}/search/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -84,6 +84,11 @@ const App = () => {
     }
   };
 
+  const HandleSearch = async () => { 
+    CreateUser();
+    fetchUser();
+  } 
+
   return (
     <div className="text-center">
       <h1 className="mt-4 mb-8 text-3xl text-blue-900">Busca los Usuarios</h1>
@@ -98,15 +103,12 @@ const App = () => {
       <div className="flex items-center justify-center mt-2">
         <button
           className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2"
-          onClick={CreateUser}
+          onClick={HandleSearch}
         >
           Buscar
         </button>{" "}
       </div>
-      <div>
-        <button onClick={ReadUser}>Leer Usuario</button>
-        <button onClick={DeleteUser}>Eliminar Usuario</button>
-      </div>
+      
       <article>
         {users.map((user) => (
           <div>
@@ -122,7 +124,11 @@ const App = () => {
         <h2>Historial de búsquedas:</h2>
         <ul>
           {searchHistory.map((item, index) => (
-            <li key={index}>{item}</li>
+            <li key={index}>{item.query}
+            <div>
+        <button onClick={ReadUser}>Leer Usuario</button>
+        <button onClick={()=> DeleteUser(item._id)}>Eliminar Usuario</button>
+      </div></li>
           ))}
         </ul>
       </div>
