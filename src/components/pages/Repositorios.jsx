@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import SearchHistoryItem from "../SearchHistoryItem";
 import { API_URL } from "../../api/config";
 
 const App = () => {
@@ -10,22 +11,21 @@ const App = () => {
 
   const [individualSearch, setIndividualSearch] = useState(null);
 
-  const fetchRepos = async () => {
+  const fetchSearch = async () => {
     try {
       const response = await fetch(`${API_URL}/repo?query=${search}`);
       if (response.ok) {
         const data = await response.json();
-        setRepos(data.items);
         setSearchHistory(data);
       } else {
-        setRepos([]);
+        setSearchHistory([]);
       }
     } catch (error) {
       console.error("error", error.message);
     }
   };
 
-  const CreateRepo = async () => {
+  const CreateSearch = async () => {
     try {
       const response = await fetch(`${API_URL}/repo`, {
         method: "POST",
@@ -46,7 +46,7 @@ const App = () => {
     }
   };
 
-  const GetRepo = async (id) => {
+  const GetSearch = async (id) => {
     try {
       const response = await fetch(`${API_URL}/repo/${id}`, {
           headers: {
@@ -68,7 +68,7 @@ const App = () => {
   };
     
 
-  const DeleteRepo = async (id) => {try {
+  const DeleteSearch = async (id) => {try {
     const response = await fetch(`${API_URL}/repo/${id}`, {
       method: "DELETE",
       headers: {
@@ -87,15 +87,40 @@ const App = () => {
   }
 };
 
+const UpdateSearch = async (id, newValue) => {
+  try {
+    const response = await fetch(`${API_URL}/repo/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ query: newValue }),
+    });
+
+    if (response.ok) {
+      console.log("Búsqueda actualizada con éxito");
+    } else {
+      console.error("Error al actualizar la búsqueda");
+    }
+  } catch (error) {
+    console.error("error", error.message);
+  }
+};
+
 const HandleSearch = async () => { 
-  CreateRepo();
-  fetchRepos();
+  await CreateSearch();
+  fetchSearch();
 } 
 
-const handleDeleteUser = async (id) => {
-  await DeleteUser(id);
-  fetchUser();
+const handleDeleteSearch = async (id) => {
+  await DeleteSearch(id);
+  fetchSearch();
 } 
+
+const handleUpdateSearch = async (id, newValue) => {
+  await UpdateSearch(id, newValue);
+  fetchSearch();
+}
 
   return (
     <div className="text-center">
@@ -119,7 +144,7 @@ const handleDeleteUser = async (id) => {
         </button>{" "}
       </div>
       <article>
-        {repos.length > 0 ? (
+        {repos.length > 0 && (
           <ul>
             {repos.map((repo) => (
               <li key={repo.id}>
@@ -133,19 +158,19 @@ const handleDeleteUser = async (id) => {
               </li>
             ))}
           </ul>
-        ) : (
-          <p></p>
         )}
       </article>
      <div>
         <h2>Historial de búsquedas:</h2>
         <ul>
-          {searchHistory.map((item, index) => (
-            <li key={item._id}>{item.query}
-            <div>
-            <button onClick={() => GetRepo(item._id)}>Obtener Búsqueda</button>
-        <button onClick={()=> handleDeleteUser(item._id)}>Eliminar Búsqueda</button>
-      </div></li>
+          {searchHistory.map((item) => (
+            <SearchHistoryItem
+              key={item._id}
+              item={item}
+              handleUpdateSearch={handleUpdateSearch}
+              GetSearch={GetSearch}
+              handleDeleteSearch={handleDeleteSearch}
+            />
           ))}
         </ul>
         </div>

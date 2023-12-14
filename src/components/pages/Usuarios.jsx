@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SearchHistoryItem from "../SearchHistoryItem";
 import { API_URL } from "../../api/config";
 
 const App = () => {
@@ -10,13 +11,12 @@ const App = () => {
 
   const [individualSearch, setIndividualSearch] = useState(null);
 
-  const fetchUser = async () => {
+  const fetchSearch = async () => {
     try {
       const response = await fetch(`${API_URL}/search?query=${search}`);
       if (response.ok) {
         const data = await response.json();
         setSearchHistory(data);
-        console.log(data);
       } else {
         setSearchHistory([]);
       }
@@ -25,14 +25,14 @@ const App = () => {
     }
   };
 
-  const CreateUser = async () => {
+  const CreateSearch = async () => {
     try {
       const response = await fetch(`${API_URL}/search`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({search}),
+        body: JSON.stringify({ search }),
       });
 
       if (response.ok) {
@@ -58,7 +58,6 @@ const App = () => {
         const data = await response.json();
         setIndividualSearch(data);
         console.log("Búsqueda obtenida con éxito");
-
       } else {
         console.error("Error al obtener la búsqueda");
       }
@@ -67,7 +66,7 @@ const App = () => {
     }
   };
 
-  const DeleteUser = async (id) => {
+  const DeleteSearch = async (id) => {
     try {
       const response = await fetch(`${API_URL}/search/${id}`, {
         method: "DELETE",
@@ -87,15 +86,40 @@ const App = () => {
     }
   };
 
-  const HandleSearch = async () => { 
-  await CreateUser();
-    fetchUser();
-  } 
+  const UpdateUserSearch = async (id, newValue) => {
+    try {
+      const response = await fetch(`${API_URL}/search/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: newValue }),
+      });
 
-  const handleDeleteUser = async (id) => {
-    await DeleteUser(id);
-    fetchUser();
-  } 
+      if (response.ok) {
+        console.log("Búsqueda actualizada con éxito");
+      } else {
+        console.error("Error al actualizar la búsqueda");
+      }
+    } catch (error) {
+      console.error("error", error.message);
+    }
+  };
+
+  const HandleSearch = async () => {
+    await CreateSearch();
+    fetchSearch();
+  };
+
+  const handleDeleteSearch = async (id) => {
+    await DeleteSearch(id);
+    fetchSearch();
+  };
+
+  const handleUpdateSearch = async (id, newValue) => {
+    await UpdateUserSearch(id, newValue);
+    fetchSearch();
+  };
 
   return (
     <div className="text-center">
@@ -116,7 +140,7 @@ const App = () => {
           Buscar
         </button>{" "}
       </div>
-      
+
       <article>
         {users.map((user) => (
           <div key={user.id}>
@@ -132,15 +156,17 @@ const App = () => {
         <h2>Historial de búsquedas:</h2>
         <ul>
           {searchHistory.map((item) => (
-            <li key={item._id}>{item.query}
-            <div>
-            <button onClick={() => GetSearch(item._id)}>Obtener Búsqueda</button>
-        <button onClick={()=> handleDeleteUser(item._id)}>Eliminar Búsqueda</button>
-      </div></li>
+            <SearchHistoryItem
+              key={item._id}
+              item={item}
+              handleUpdateSearch={handleUpdateSearch}
+              GetSearch={GetSearch}
+              handleDeleteSearch={handleDeleteSearch}
+            />
           ))}
         </ul>
-        </div>
-        {individualSearch !== null && (
+      </div>
+      {individualSearch !== null && (
         <div>
           <h4>Búsqueda actual</h4>
           <p>Id: {individualSearch._id}</p>
