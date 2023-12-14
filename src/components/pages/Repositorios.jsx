@@ -8,6 +8,8 @@ const App = () => {
 
   const [searchHistory, setSearchHistory] = useState([]);
 
+  const [individualSearch, setIndividualSearch] = useState(null);
+
   const fetchRepos = async () => {
     try {
       const response = await fetch(`${API_URL}/repo?query=${search}`);
@@ -37,27 +39,28 @@ const App = () => {
         const res = await response.json();
         setRepos(res.data.results)
       } else {
-                console.error("Error al crear repositorio");
+                console.error("Error al crear la búsqueda");
       }
     } catch (error) {
       console.error("error", error.message);
     }
   };
 
-  const ReadRepo = async () => {
+  const GetRepo = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/repo`, {
-        method: "GET",
-        headers: {
+      const response = await fetch(`${API_URL}/repo/${id}`, {
+          headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(),
       });
 
       if (response.ok) {
-                console.log("Repositorio leído con éxito");
+        const data = await response.json();
+        setIndividualSearch(data);
+                console.log("Búsqueda obtenida con éxito");
       } else {
-                console.error("Error al leer el repositorio");
+                console.error("Error al obtener la búsqueda");
       }
     } catch (error) {
       console.error("error", error.message);
@@ -75,9 +78,9 @@ const App = () => {
     });
 
     if (response.ok) {
-              console.log("Repositorio eliminado con éxito");
+              console.log("Búsqueda eliminada con éxito");
     } else {
-              console.error("Error al eliminar el repositorio");
+              console.error("Error al eliminar la búsqueda");
     }
   } catch (error) {
     console.error("error", error.message);
@@ -87,6 +90,11 @@ const App = () => {
 const HandleSearch = async () => { 
   CreateRepo();
   fetchRepos();
+} 
+
+const handleDeleteUser = async (id) => {
+  await DeleteUser(id);
+  fetchUser();
 } 
 
   return (
@@ -133,14 +141,22 @@ const HandleSearch = async () => {
         <h2>Historial de búsquedas:</h2>
         <ul>
           {searchHistory.map((item, index) => (
-            <li key={index}>{item.query}
+            <li key={item._id}>{item.query}
             <div>
-        <button onClick={ReadRepo}>Leer Repositorio</button>
-        <button onClick={DeleteRepo}>Eliminar Repositorio</button>
+            <button onClick={() => GetRepo(item._id)}>Obtener Búsqueda</button>
+        <button onClick={()=> handleDeleteUser(item._id)}>Eliminar Búsqueda</button>
       </div></li>
           ))}
         </ul>
-      </div>
+        </div>
+        {individualSearch !== null && (
+        <div>
+          <h4>Búsqueda actual</h4>
+          <p>Id: {individualSearch._id}</p>
+          <p>Query: {individualSearch.query}</p>
+          <p>Timestamp: {individualSearch.timestamp}</p>
+        </div>
+      )}
     </div>
   );
 };

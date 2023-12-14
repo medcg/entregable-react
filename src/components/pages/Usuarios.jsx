@@ -8,6 +8,8 @@ const App = () => {
 
   const [searchHistory, setSearchHistory] = useState([]);
 
+  const [individualSearch, setIndividualSearch] = useState(null);
+
   const fetchUser = async () => {
     try {
       const response = await fetch(`${API_URL}/search?query=${search}`);
@@ -37,27 +39,28 @@ const App = () => {
         const res = await response.json();
         setUsers(res.data.results);
       } else {
-        console.error("Error al crear usuario");
+        console.error("Error al crear la búsqueda");
       }
     } catch (error) {
       console.error("error", error.message);
     }
   };
 
-  const ReadUser = async () => {
+  const GetSearch = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/search`, {
-        method: "GET",
+      const response = await fetch(`${API_URL}/search/${id}`, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(),
       });
 
       if (response.ok) {
-        console.log("Usuario leído con éxito");
+        const data = await response.json();
+        setIndividualSearch(data);
+        console.log("Búsqueda obtenida con éxito");
+
       } else {
-        console.error("Error al leer el usuario");
+        console.error("Error al obtener la búsqueda");
       }
     } catch (error) {
       console.error("error", error.message);
@@ -75,9 +78,9 @@ const App = () => {
       });
 
       if (response.ok) {
-        console.log("Usuario eliminado con éxito");
+        console.log("Búsqueda eliminada con éxito");
       } else {
-        console.error("Error al eliminar el usuario");
+        console.error("Error al eliminar la búsqueda");
       }
     } catch (error) {
       console.error("error", error.message);
@@ -85,7 +88,12 @@ const App = () => {
   };
 
   const HandleSearch = async () => { 
-    CreateUser();
+  await CreateUser();
+    fetchUser();
+  } 
+
+  const handleDeleteUser = async (id) => {
+    await DeleteUser(id);
     fetchUser();
   } 
 
@@ -111,7 +119,7 @@ const App = () => {
       
       <article>
         {users.map((user) => (
-          <div>
+          <div key={user.id}>
             <div className="container">
               <img src={user.avatar_url} alt="avatar" />
               <h4>{user.login}</h4>
@@ -123,15 +131,23 @@ const App = () => {
       <div>
         <h2>Historial de búsquedas:</h2>
         <ul>
-          {searchHistory.map((item, index) => (
-            <li key={index}>{item.query}
+          {searchHistory.map((item) => (
+            <li key={item._id}>{item.query}
             <div>
-        <button onClick={ReadUser}>Leer Usuario</button>
-        <button onClick={()=> DeleteUser(item._id)}>Eliminar Usuario</button>
+            <button onClick={() => GetSearch(item._id)}>Obtener Búsqueda</button>
+        <button onClick={()=> handleDeleteUser(item._id)}>Eliminar Búsqueda</button>
       </div></li>
           ))}
         </ul>
-      </div>
+        </div>
+        {individualSearch !== null && (
+        <div>
+          <h4>Búsqueda actual</h4>
+          <p>Id: {individualSearch._id}</p>
+          <p>Query: {individualSearch.query}</p>
+          <p>Timestamp: {individualSearch.timestamp}</p>
+        </div>
+      )}
     </div>
   );
 };
