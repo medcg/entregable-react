@@ -122,8 +122,8 @@ const App = () => {
   };
 
   return (
-    <div className="text-center">
-      <h1 className="mt-4 mb-8 text-3xl text-blue-900">Busca los Usuarios</h1>
+    <div className="text-center  bg-cover bg-center relative">
+       <h1 className="mt-4 mb-8 text-3xl text-blue-900">Busca los Usuarios</h1>
       <div className="flex items-center justify-center">
         <input
           className="py-2 px-4 border border-stone-950 rounded-lg max-w-2000"
@@ -143,9 +143,9 @@ const App = () => {
 
       <article>
         {users.map((user) => (
-          <div key={user.id}>
+          <div key={user.id} className="flex items-center justify-center mb-6">
             <div className="container">
-              <img src={user.avatar_url} alt="avatar" />
+              <img src={user.avatar_url} alt="avatar" className="w-32 h-32 mx-auto my-auto" />
               <h4>{user.login}</h4>
               <p>{user.bio}</p>
             </div>
