@@ -122,58 +122,59 @@ const App = () => {
   };
 
   return (
-    <div className="text-center  bg-cover bg-center relative">
-       <h1 className="mt-4 mb-8 text-3xl text-blue-900">Busca los Usuarios</h1>
-      <div className="flex items-center justify-center">
-        <input
-          className="py-2 px-4 border border-stone-950 rounded-lg max-w-2000"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Nombre de Usuario"
-        />
-      </div>
-      <div className="flex items-center justify-center mt-2">
-        <button
-          className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2"
-          onClick={HandleSearch}
-        >
-          Buscar
-        </button>{" "}
-      </div>
-
-      <article>
-        {users.map((user) => (
-          <div key={user.id} className="flex items-center justify-center mb-6">
-            <div className="container">
-              <img src={user.avatar_url} alt="avatar" className="w-32 h-32 mx-auto my-auto" />
-              <h4>{user.login}</h4>
-              <p>{user.bio}</p>
-            </div>
-          </div>
-        ))}
-      </article>
-      <div>
-        <h2>Historial de búsquedas:</h2>
-        <ul>
-          {searchHistory.map((item) => (
-            <SearchHistoryItem
-              key={item._id}
-              item={item}
-              handleUpdateSearch={handleUpdateSearch}
-              GetSearch={GetSearch}
-              handleDeleteSearch={handleDeleteSearch}
-            />
-          ))}
-        </ul>
-      </div>
-      {individualSearch !== null && (
-        <div>
-          <h4>Búsqueda actual</h4>
-          <p>Id: {individualSearch._id}</p>
-          <p>Query: {individualSearch.query}</p>
-          <p>Timestamp: {individualSearch.timestamp}</p>
+    <div className="text-center bg-cover bg-center relative grid grid-cols-2">
+      <div className="p-4">
+        <h1 className="mt-4 mb-8 text-3xl text-blue-900">Busca los Usuarios</h1>
+        <div className="flex items-center justify-center">
+          <input
+            className="py-2 px-4 border border-stone-950 rounded-lg max-w-2000"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Nombre de Usuario"
+          />
+          <button
+            className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2"
+            onClick={HandleSearch}
+          >
+            Buscar
+          </button>
         </div>
-      )}
+        <article>
+          {users.map((user) => (
+            <div key={user.id} className="flex items-center justify-center mb-6">
+              <div className="container">
+                <img src={user.avatar_url} alt="avatar" className="w-32 h-32 mx-auto my-auto" />
+                <h4>{user.login}</h4>
+                <p>{user.bio}</p>
+              </div>
+            </div>
+          ))}
+        </article>
+      </div>
+      <div className="p-4">
+        <div>
+          <h1 className="mt-4 mb-8 text-3xl text-blue-900">Historial</h1>
+          <ul>
+            {searchHistory.map((item) => (
+              <SearchHistoryItem
+                key={item._id}
+                item={item}
+                handleUpdateSearch={handleUpdateSearch}
+                GetSearch={GetSearch}
+                handleDeleteSearch={handleDeleteSearch}
+              />
+            ))}
+          </ul>
+        </div>
+        {individualSearch !== null && (
+          <div>
+            <h4>Búsqueda actual</h4>
+            <p>Id: {individualSearch._id}</p>
+            <p>Query: {individualSearch.query}</p>
+            <p>Timestamp: {individualSearch.timestamp}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

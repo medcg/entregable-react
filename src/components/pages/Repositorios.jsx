@@ -122,8 +122,9 @@ const handleUpdateSearch = async (id, newValue) => {
   fetchSearch();
 }
 
-  return (
-    <div className="text-center">
+return (
+  <div className="text-center bg-cover bg-center relative grid grid-cols-2">
+    <div className="p-4">
       <h1 className="mt-4 mb-8 text-3xl text-blue-900">
         Busca los Repositorios
       </h1>
@@ -134,8 +135,8 @@ const handleUpdateSearch = async (id, newValue) => {
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Nombre de Repositorio"
         />
-      </div>
-      <div className="flex items-center justify-center mt-2">
+      
+      
         <button
           className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2"
           onClick={HandleSearch}
@@ -143,6 +144,7 @@ const handleUpdateSearch = async (id, newValue) => {
           Buscar
         </button>{" "}
       </div>
+      
       <article>
         {repos.length > 0 && (
           <ul>
@@ -160,8 +162,11 @@ const handleUpdateSearch = async (id, newValue) => {
           </ul>
         )}
       </article>
-     <div>
-        <h2>Historial de búsquedas:</h2>
+    </div>
+
+    <div className="col-span-1 p-4">
+      <div>
+        <h1 className="mt-4 mb-8 text-3xl text-blue-900">Historial</h1>
         <ul>
           {searchHistory.map((item) => (
             <SearchHistoryItem
@@ -173,8 +178,8 @@ const handleUpdateSearch = async (id, newValue) => {
             />
           ))}
         </ul>
-        </div>
-        {individualSearch !== null && (
+      </div>
+      {individualSearch !== null && (
         <div>
           <h4>Búsqueda actual</h4>
           <p>Id: {individualSearch._id}</p>
@@ -183,7 +188,8 @@ const handleUpdateSearch = async (id, newValue) => {
         </div>
       )}
     </div>
-  );
+  </div>
+);
 };
 
 export default App;
