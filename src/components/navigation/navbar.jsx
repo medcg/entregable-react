@@ -6,20 +6,26 @@ function Navbar() {
     <nav className="py-2.5 bg-yellow-400 flex justify-center">
       <ul className="flex space-x-8">
         <li className="mx-2">
-          <Link to="/" className="text-blue-800 hover:text-blue-700">
-            PaginaPrincipal
+          <Link
+            to="/"
+            className="text-white bg-blue-500 hover:bg-blue-700 transition duration-300 ease-in-out rounded-full py-2 px-4"
+          >
+            Pagina Principal
           </Link>
         </li>
 
         <li className="mx-2">
-          <Link to="/usuarios" className="text-blue-800 hover:text-blue-700">
+          <Link
+            to="/usuarios"
+            className="text-white bg-blue-500 hover:bg-blue-700 transition duration-300 ease-in-out rounded-full py-2 px-4"
+          >
             Usuarios
           </Link>
         </li>
         <li className="mx-2">
           <Link
             to="/repositorios"
-            className="text-blue-800 hover:text-blue-700"
+            className="text-white bg-blue-500 hover:bg-blue-700 transition duration-300 ease-in-out rounded-full py-2 px-4"
           >
             Repositorios
           </Link>

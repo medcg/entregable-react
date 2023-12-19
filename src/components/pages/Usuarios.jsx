@@ -133,15 +133,15 @@ const App = () => {
             placeholder="Nombre de Usuario"
           />
           <button
-            className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2"
+            className="transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-full bg-stone-950 border-yellow-700 text-white px-4 py-2 ml-2"
             onClick={HandleSearch}
           >
             Buscar
           </button>
         </div>
-        <article>
+        <article className="flex flex-wrap">
           {users.map((user) => (
-            <div key={user.id} className="flex items-center justify-center mb-6">
+            <div key={user.id} className="flex items-center justify-center mb-6 mr-4 shadow-lg rounded-lg p-4">
               <div className="container">
                 <img src={user.avatar_url} alt="avatar" className="w-32 h-32 mx-auto my-auto" />
                 <h4>{user.login}</h4>

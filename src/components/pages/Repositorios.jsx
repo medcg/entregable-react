@@ -145,7 +145,7 @@ return (
         </button>{" "}
       </div>
       
-      <article>
+      <article className="flex flex-wrap">
         {repos.length > 0 && (
           <ul>
             {repos.map((repo) => (
