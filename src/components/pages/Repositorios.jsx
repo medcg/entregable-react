@@ -164,7 +164,7 @@ const App = () => {
 
       <div className="col-span-1 p-4">
         <div>
-          <h1 className="mt-4 mb-8 text-3xl text-blue-900">Historial</h1>
+          <h1 className="text-center mt-4 mb-8 text-3xl text-blue-900">Historial</h1>
           <ul>
             {searchHistory.map((item) => (
               <SearchHistoryItem
