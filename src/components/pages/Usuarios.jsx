@@ -141,9 +141,16 @@ const App = () => {
         </div>
         <article className="flex flex-wrap">
           {users.map((user) => (
-            <div key={user.id} className="flex items-center justify-center mb-6 mr-4 shadow-lg rounded-lg p-4">
+            <div
+              key={user.id}
+              className="flex items-center justify-center mb-6 mr-4 shadow-lg rounded-lg p-4"
+            >
               <div className="container">
-                <img src={user.avatar_url} alt="avatar" className="w-32 h-32 mx-auto my-auto" />
+                <img
+                  src={user.avatar_url}
+                  alt="avatar"
+                  className="w-32 h-32 mx-auto my-auto"
+                />
                 <h4>{user.login}</h4>
                 <p>{user.bio}</p>
               </div>
