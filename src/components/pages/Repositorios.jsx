@@ -143,7 +143,7 @@ const App = () => {
           </button>{" "}
         </div>
 
-        <article className="flex flex-wrap">
+        <article>
           {repos.length > 0 && (
             <ul className="list-disc mx-4">
               {repos.map((repo) => (
